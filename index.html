@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown para el 7 de septiembre de 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: 
+                linear-gradient(135deg, rgba(26, 42, 108, 0.8), rgba(178, 31, 31, 0.8), rgba(253, 187, 45, 0.8)),
+                url('https://images.unsplash.com/photo-1465101162946-4377e57745c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1778&q=80') center/cover;
+            
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+            transition: background 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 800px;
+            width: 100%;
+            backdrop-filter: blur(5px);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .target-date {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #fdbb2d;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .time-unit {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            min-width: 130px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
+        }
+        
+        .time-unit:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .time-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .time-label {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .message {
+            margin-top: 30px;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
+        
+        #celebration {
+            display: none;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+        
+        .celebration-date {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #ffdd00;
+            font-weight: bold;
+        }
+        
+        .celebration-message {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .emoji {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: bounce 1.5s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(to right, #ff8a00, #ff2070);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .countdown-complete {
+            font-size: 1.5rem;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            opacity: 0.7;
+            animation: fall linear forwards;
+            z-index: 1;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        
+        
+        .hidden-trigger {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            opacity: 0.001;
+            cursor: pointer;
+            z-index: 100;
+            transition: opacity 0.3s;
+        }
+        
+        .hidden-trigger:hover {
+            opacity: 0.05;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        /*verde*/
+        .trigger-1 {
+            top: 10px;
+            left: 10px;
+        }
+        
+        .trigger-2 {
+            top: 10px;
+            right: 10px;
+        }
+        
+        .trigger-3 {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        
+        .ghost-trigger {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            opacity: 0.001;
+            cursor: pointer;
+            z-index: 100;
+        }
+        
+        .ghost-1 {
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .ghost-2 {
+            bottom: 15px;
+            left: 15px;
+        }
+        
+        .ghost-3 {
+            bottom: 15px;
+            right: 15px;
+        }
+        
+        .ghost-4 {
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+        }
+        
+        .ghost-5 {
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+        }
+        
+        @media (max-width: 600px) {
+            .time-unit {
+                min-width: 100px;
+                padding: 15px;
+            }
+            
+            .time-value {
+                font-size: 2rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .target-date {
+                font-size: 1.2rem;
+            }
+            
+            .celebration-date {
+                font-size: 1.5rem;
+            }
+            
+            .celebration-message {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!--777--> 
+    <div class="hidden-trigger trigger-1" id="elemento-temporal"></div>
+    <div class="hidden-trigger trigger-2" id="modulo-dinamico"></div>
+    <div class="hidden-trigger trigger-3" id="recurso-externo"></div>
+    
+    <div class="ghost-trigger ghost-1" id="utilidad-secundaria"></div>
+    <div class="ghost-trigger ghost-2" id="componente-auxiliar"></div>
+    <div class="ghost-trigger ghost-3" id="widget-flotante"></div>
+    <div class="ghost-trigger ghost-4" id="control-ui"></div>
+    <div class="ghost-trigger ghost-5" id="indicador-estado"></div>
+    
+    <div id="countdown-container" class="container">
+        <h1>Countdown para el 7 de septiembre de 2025</h1>
+        <div class="target-date">Día objetivo: 7 de septiembre de 2025</div>
+        
+        <div class="countdown">
+            <div class="time-unit">
+                <div id="days" class="time-value">00</div>
+                <div class="time-label">Días</div>
+            </div>
+            
+            <div class="time-unit">
+                <div id="hours" class="time-value">00</div>
+                <div class="time-label">Horas</div>
+            </div>
+            
+            <div class="time-unit">
+                <div id="minutes" class="time-value">00</div>
+                <div class="time-label">Minutos</div>
+            </div>
+            
+            <div class="time-unit">
+                <div id="seconds" class="time-value">00</div>
+                <div class="time-label">Segundos</div>
+            </div>
+        </div>
+        
+        <div class="message" id="message">Un momento especial se acerca...</div>
+    </div>
+
+    <!--Rojo-->
+    <div id="celebration" class="container">
+        <h1>¡Llegó el Día, FELIZ CUMPLEAÑOS NENA </h1>
+        
+        <div class="emoji">🎉</div>
+        
+        <div class="celebration-date">7 de septiembre de 2025</div>
+        
+        <div class="celebration-message">
+            Para conmemorar la ocasión especial se me ocurrió emprender un viaje a un sitio que los dos queriamos ir desde hace timpo.
+            
+        </div>
+        
+        <div class="countdown-complete">
+            El plan iniará en: San Bernardino
+        </div>
+        
+        <div class="emoji">🥳</div>
+        
+        <a href="#" class="button">Compartir la Celebración</a>
+    </div>
+
+    <script>
+        
+        const targetDate = new Date('September 7, 2025 00:00:00').getTime();
+        
+        // Elementos del DOM
+        const countdownContainer = document.getElementById('countdown-container');
+        const celebrationContainer = document.getElementById('celebration');
+        
+        // Estado de los puntos de activación
+        let activePointsClicked = {
+            'elemento-temporal': false,
+            'modulo-dinamico': false,
+            'recurso-externo': false
+        };
+        
+        // Mensajes aleatorios para mostrar
+        const messages = [
+            "Caracas es Caracas lo demás es monte y culebra",
+            "Kirby Chef its cooking",
+            "La paciencia es una virtud (La cual no tengo)",
+            "0800 Llamen a dios ",
+            "Espero que la pases increible en tu día :3"
+        ];
+        
+        const randomNames = [
+            "inicializador-sistema",
+            "cargador-datos",
+            "registro-eventos",
+            "validacion-seguridad",
+            "modulo-configuracion",
+            "api-conexion",
+            "gestor-recursos",
+            "utilidad-herramientas",
+            "plugin-complemento",
+            "servicio-background"
+        ];
+        
+        document.querySelectorAll('.ghost-trigger').forEach((point, index) => {
+            if (randomNames[index]) {
+                point.id = randomNames[index];
+            }
+        });
+        
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            const container = document.querySelector('body');
+            
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = (5 + Math.random() * 10) + 'px';
+                confetti.style.height = (5 + Math.random() * 10) + 'px';
+                confetti.style.animationDuration = (2 + Math.random() * 5) + 's';
+                confetti.style.animationDelay = (Math.random() * 3) + 's';
+                
+                container.appendChild(confetti);
+            }
+        }
+        
+        function showCelebration() {
+            countdownContainer.style.opacity = 0;
+            setTimeout(() => {
+                countdownContainer.style.display = 'none';
+                
+                
+                celebrationContainer.style.display = 'block';
+                setTimeout(() => {
+                    celebrationContainer.style.opacity = 1;
+                    createConfetti();
+                    
+                    
+                    document.body.style.background = 
+                        "linear-gradient(135deg, rgba(108, 26, 89, 0.85), rgba(31, 178, 166, 0.85), rgba(253, 222, 45, 0.85)), " +
+                        "url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80') center/cover";
+                }, 50);
+            }, 1000);
+        }
+        
+        function setupActivationPoints() {
+            const activationPoints = document.querySelectorAll('.hidden-trigger');
+            
+            activationPoints.forEach(point => {
+                point.addEventListener('click', () => {
+                    
+                    activePointsClicked[point.id] = true;
+                    
+                    
+                    point.style.opacity = '0.1';
+                    point.style.background = 'rgba(0, 255, 0, 0.2)';
+                    point.style.borderRadius = '50%';
+                    
+                    setTimeout(() => {
+                        point.style.opacity = '0.001';
+                        point.style.background = 'none';
+                    }, 500);
+                    
+                    
+                    checkAllActivationPointsClicked();
+                });
+            });
+            
+            
+            document.querySelectorAll('.ghost-trigger').forEach(point => {
+                point.addEventListener('click', () => {
+                    
+                    point.style.opacity = '0.05';
+                    point.style.background = 'rgba(255, 0, 0, 0.1)';
+                    point.style.borderRadius = '50%';
+                    
+                    setTimeout(() => {
+                        point.style.opacity = '0.001';
+                        point.style.background = 'none';
+                    }, 300);
+                });
+            });
+        }
+        
+        
+        function checkAllActivationPointsClicked() {
+            const allClicked = Object.values(activePointsClicked).every(point => point === true);
+            
+            if (allClicked) {
+                
+                clearInterval(countdownInterval);
+                showCelebration();
+            }
+        }
+        
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const timeRemaining = targetDate - now;
+            
+            
+            if (timeRemaining < 0) {
+                clearInterval(countdownInterval);
+                showCelebration();
+                return;
+            }
+            
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            
+            if (Math.floor(now / 1000) % 10 === 0) {
+                const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+                document.getElementById('message').textContent = randomMessage;
+            }
+        }
+        
+        
+        setupActivationPoints();
+        
+        
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        
+        
+        updateCountdown();
+    </script>
+</body>
+</html>
