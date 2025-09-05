@@ -94,59 +94,115 @@
             display: none;
             opacity: 0;
             transition: opacity 1.5s ease;
+            background: url('https://images.unsplash.com/photo-1422207258071-70754198c4a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80') center/cover no-repeat;
+            padding: 40px 30px;
         }
         
-        .celebration-date {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            color: #ffdd00;
-            font-weight: bold;
+        .celebration-content {
+            background-color: rgba(255, 255, 255, 0.92);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(5px);
+            animation: containerAppear 1.5s ease-out;
+            color: #2c3e50;
         }
         
-        .celebration-message {
-            font-size: 1.8rem;
-            margin-bottom: 40px;
-            line-height: 1.6;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        @keyframes containerAppear {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
         
-        .emoji {
-            font-size: 4rem;
+        .celebration-title {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .celebration-emoji {
+            font-size: 3rem;
             margin: 20px 0;
-            animation: bounce 1.5s infinite;
+            animation: bounce 2s infinite;
         }
         
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-15px); }
         }
         
-        .button {
-            display: inline-block;
-            background: linear-gradient(to right, #ff8a00, #ff2070);
-            color: white;
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 1.2rem;
+        .celebration-date {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: #e74c3c;
             font-weight: bold;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        .celebration-message {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding: 0 20px;
         }
         
-        .countdown-complete {
-            font-size: 1.5rem;
-            margin-top: 30px;
+        .image-container {
+            margin: 30px auto;
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            border: 3px dashed #ccc;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+            overflow: hidden;
+        }
+        
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .image-placeholder {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        
+        .celebration-details {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
             padding: 15px;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: #f8f9fa;
             border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .celebration-button {
             display: inline-block;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .celebration-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .celebration-button:active {
+            transform: translateY(1px);
         }
         
         .confetti {
@@ -164,7 +220,6 @@
                 opacity: 0;
             }
         }
-        
         
         .hidden-trigger {
             position: fixed;
@@ -255,12 +310,29 @@
                 font-size: 1.2rem;
             }
             
+            .celebration-title {
+                font-size: 2.2rem;
+            }
+            
             .celebration-date {
                 font-size: 1.5rem;
             }
             
-            .celebration-message {
-                font-size: 1.4rem;
+            .celebration-message, .celebration-details {
+                font-size: 1.1rem;
+            }
+            
+            .celebration-content {
+                padding: 25px;
+            }
+            
+            .celebration-button {
+                padding: 12px 30px;
+                font-size: 1.1rem;
+            }
+            
+            .image-container {
+                height: 250px;
             }
         }
     </style>
@@ -308,24 +380,31 @@
 
     <!--Rojo-->
     <div id="celebration" class="container">
-        <h1>¡Llegó el Día, FELIZ CUMPLEAÑOS NENA </h1>
-        
-        <div class="emoji">🎉</div>
-        
-        <div class="celebration-date">7 de septiembre de 2025</div>
-        
-        <div class="celebration-message">
-            Para conmemorar la ocasión especial se me ocurrió emprender un viaje a un sitio que los dos queriamos ir desde hace timpo, muejejeje.
+        <div class="celebration-content">
+            <h1 class="celebration-title">¡Llegó el Día, FELIZ CUMPLEAÑOS NENAAA!</h1>
+            
+            <div class="celebration-emoji">🎉</div>
+            
+            <div class="celebration-date">7 de septiembre de 2025</div>
+            
+            <div class="celebration-message">
+                Llevo planificando este dia desde hace bastante tiempo, y por fin ha llegado. Este año quise hacer algo especial y diferente a lo que habiamos hecho los otros años.
+                A la vez que completabamos uno de esos planes que pensamos pero nunca concretamos.
+                Espero que te guste y que lo disfrutes tanto como yo he disfrutado preparandolo muejeje
+            </div>
+            
+            
+            <div class="image-container">
+    <img src="Foto_juntos.jpg" alt="Imagen de celebración" style="max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 10px;">
+            </div>
+            
+            <div class="celebration-details">
+                Esta tarde estos dos peligrosos van subir bastante alto... así que preparate para tocar las nubes.
+            </div>
+            
+            <div class="celebration-emoji">🥳</div>
             
         </div>
-        
-        <div class="countdown-complete">
-            Esta tarde prepara la maleta que vamos a subir bastante alto, Si traes paracaidas mejor asjdjas
-        </div>
-        
-        <div class="emoji">🥳</div>
-        
-        <a href="#" class="button">Compartir la Celebración</a>
     </div>
 
     <script>
@@ -399,11 +478,6 @@
                 setTimeout(() => {
                     celebrationContainer.style.opacity = 1;
                     createConfetti();
-                    
-                    
-                    document.body.style.background = 
-                        "linear-gradient(135deg, rgba(108, 26, 89, 0.85), rgba(31, 178, 166, 0.85), rgba(253, 222, 45, 0.85)), " +
-                        "url('https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80') center/cover";
                 }, 50);
             }, 1000);
         }
@@ -496,6 +570,4 @@
         updateCountdown();
     </script>
 </body>
-
 </html>
-
